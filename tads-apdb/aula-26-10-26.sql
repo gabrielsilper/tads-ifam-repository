@@ -50,3 +50,29 @@ begin
 end$$
 
 delimiter ;
+
+-- Query para verificar e fazer as inserções de venda e itemvenda para validar
+select * from venda;
+select * from itemvenda;
+select * from produto join grupoproduto on grpcodigo = progrpcodigo order by procodigo;
+select * from cliente;
+select * from funcionariocomissao;
+
+
+insert into venda
+values 
+(112, curdate(), 2, 8, 9, 1);
+
+insert into venda
+values 
+(113, curdate(), 2, 2, 8, 1);
+
+insert into itemvenda
+values
+(112, 2, 13);
+
+insert into itemvenda
+values
+(113, 21, 1);
+
+delimiter $$
