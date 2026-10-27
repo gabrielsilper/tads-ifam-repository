@@ -24,7 +24,7 @@ begin
         join produto on procodigo = itvprocodigo
         join funcionario on funcodigo = venfuncodigo
         join grupoproduto on grpcodigo = progrpcodigo
-    where funcodigo = 9
+    where funcodigo = p_funcodigo
     group by
         funcodigo,
         YEAR(vendata),
