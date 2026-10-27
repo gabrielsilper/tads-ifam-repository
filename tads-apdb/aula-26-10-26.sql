@@ -17,7 +17,7 @@ begin
         funcodigo,
         YEAR(vendata),
         MONTH(vendata),
-        SUM(prosaldo * itvqtde * grpcomissao)
+        SUM(propreco * itvqtde * (grpcomissao/100))
     from
         itemvenda
         join venda on vencodigo = itvvencodigo
