@@ -68,7 +68,7 @@ set session transaction isolation level repeatable read;   -- volta ao padrão
 
 -- 1) [SESSÃO B] abre a transação no READ COMMITTED e lê
 set session transaction isolation level read committed;
-start transaction;
+start transaction;  
 call sp_consulta_produto(21);              -- B vê 1200.00
 
 -- 2) [SESSÃO A] altera SEM confirmar

@@ -79,17 +79,7 @@ begin
 end$$
 delimiter ;
 
--- =====================================================================
 -- PROCEDURES PARA O ESTUDO DE TRANSAÇÕES E NÍVEIS DE ISOLAMENTO
--- =====================================================================
--- Regra: as procedures de "etapa" (consulta, reajuste, baixa de saldo,
--- abre venda, adiciona item) NÃO fazem commit nem rollback. Elas só
--- validam e disparam erro com SIGNAL. Quem controla a transação (e o
--- nível de isolamento) é quem chama: o script de testes ou a
--- sp_registra_venda.
--- Os testes estão em testes_procedures_transacoes.sql
--- =====================================================================
-
 -- Minha procedure para consultar preço e saldo de um produto
 -- (é a "leitura" usada nos testes de isolamento)
 drop procedure if exists sp_consulta_produto;
@@ -184,7 +174,6 @@ end$$
 delimiter ;
 
 -- Etapa 1 da venda: valida os dados e insere o cabeçalho na tabela venda
--- (o código da venda é informado manualmente, pois vencodigo não é auto_increment)
 drop procedure if exists sp_abre_venda;
 delimiter $$
 create procedure sp_abre_venda(
@@ -253,7 +242,7 @@ begin
 end$$
 delimiter ;
 
--- GRAN FINALE: registra a venda completa em UMA transação
+-- Registra a venda completa em UMA transação
 -- Recebe os dados da venda e UM item (produto + quantidade).
 -- Fluxo: abre a venda -> baixa o saldo do produto (for update)
 -- -> insere o item (+ trigger de comissão) -> commit.
@@ -274,10 +263,8 @@ create procedure sp_registra_venda(
     p_qtde int
 )
 begin
-    declare exit handler for sqlexception
     begin
         rollback;
-        resignal;
     end;
 
     start transaction;
